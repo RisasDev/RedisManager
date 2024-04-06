@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Class for managing the connection and communication with Redis.
  */
-public class RedisManger {
+public class RedisManager {
 
     private final RedisCredentials credentials;
     private final JedisPool jedis;
@@ -38,7 +38,7 @@ public class RedisManger {
      *
      * @param credentials The Redis credentials.
      */
-    public RedisManger(RedisCredentials credentials) {
+    public RedisManager(RedisCredentials credentials) {
         this.credentials = credentials;
 
         this.jedis = credentials.getJedis();

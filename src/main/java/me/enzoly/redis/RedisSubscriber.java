@@ -8,14 +8,14 @@ import java.lang.reflect.InvocationTargetException;
 
 public class RedisSubscriber extends BinaryJedisPubSub {
 
-    private final RedisManger redisManager;
+    private final RedisManager redisManager;
 
     /**
      * Constructs a new RedisSubscriber with the specified RedisManager.
      *
      * @param redisManager The RedisManager instance.
      */
-    public RedisSubscriber(RedisManger redisManager) {
+    public RedisSubscriber(RedisManager redisManager) {
         this.redisManager = redisManager;
     }
 
