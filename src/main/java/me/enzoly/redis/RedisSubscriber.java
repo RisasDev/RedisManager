@@ -42,7 +42,7 @@ public class RedisSubscriber extends BinaryJedisPubSub {
 
         redisManager.getPacketMethods().get(deserializedPacket.getClass().getName()).forEach(packetHandler -> {
             try {
-                packetHandler.method().invoke(packetHandler.listener(), deserializedPacket);
+                packetHandler.getMethod().invoke(packetHandler.getListener(), deserializedPacket);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
