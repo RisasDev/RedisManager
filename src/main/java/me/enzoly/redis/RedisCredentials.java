@@ -1,7 +1,10 @@
 package me.enzoly.redis;
 
 import lombok.Getter;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 @Getter
 public class RedisCredentials {
@@ -26,8 +29,26 @@ public class RedisCredentials {
         this.password = password;
         this.channel = channel;
 
-        this.jedis = new JedisPool(host, port);
-        tryAuth();
+        try {
+            JedisPoolConfig config = new JedisPoolConfig();
+            config.setMaxTotal(12);
+
+            if (password != null && !password.isEmpty()) {
+                jedis = new JedisPool(config, host, port, 10000, password);
+                System.out.println("with password");
+            }
+            else {
+                jedis = new JedisPool(config, host, port, 10000);
+                System.out.println("without password");
+            }
+
+            try (Jedis jedis = this.jedis.getResource()) {
+                jedis.ping();
+            }
+        }
+        catch (JedisConnectionException e) {
+            throw new JedisConnectionException("Failed to connect to Redis server at " + host + ":" + port + " with password " + password);
+        }
     }
 
     /**
@@ -41,17 +62,4 @@ public class RedisCredentials {
     public RedisCredentials(String host, int port, String channel) {
         this(host, port, null, channel);
     }
-
-    /**
-     * Attempts to authenticate with Redis using the provided password.
-     */
-
-    public void tryAuth() {
-        if (password == null || password.isEmpty()) {
-            return;
-        }
-
-        jedis.getResource().auth(password);
-    }
-
 }
