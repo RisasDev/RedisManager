@@ -44,6 +44,5 @@
             <version>31.0.1-jre</version>
             <scope>compile</scope>
         </dependency>
-
     </dependencies>
 </project>

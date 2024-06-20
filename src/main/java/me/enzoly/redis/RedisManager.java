@@ -49,7 +49,8 @@ public class RedisManager {
         redisExecutor.scheduleAtFixedRate(() -> {
             try {
                 jedis.getResource().psubscribe(new RedisSubscriber(this), credentials.getChannel().getBytes());
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }, 0, 1, TimeUnit.SECONDS);
@@ -103,8 +104,6 @@ public class RedisManager {
      */
     public void shutdown() {
         this.redisExecutor.shutdown();
-
-        jedis.close();
+        if (jedis != null) jedis.close();
     }
-
 }

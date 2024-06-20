@@ -35,11 +35,9 @@ public class RedisCredentials {
 
             if (password != null && !password.isEmpty()) {
                 jedis = new JedisPool(config, host, port, 10000, password);
-                System.out.println("with password");
             }
             else {
                 jedis = new JedisPool(config, host, port, 10000);
-                System.out.println("without password");
             }
 
             try (Jedis jedis = this.jedis.getResource()) {
@@ -47,7 +45,7 @@ public class RedisCredentials {
             }
         }
         catch (JedisConnectionException e) {
-            throw new JedisConnectionException("Failed to connect to Redis server at " + host + ":" + port + " with password " + password);
+            throw new JedisConnectionException("Failed to connect to Redis server");
         }
     }
 
